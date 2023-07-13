@@ -2,10 +2,13 @@ package pl.vyraj;
 
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.OutputStreamWriter;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Objects;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class ClientChat {
@@ -13,8 +16,6 @@ public class ClientChat {
     private BufferedReader input;
     private BufferedWriter output;
     private String userName;
-    private static final int PORT = 7777;
-    private static final String HOST = "localhost";
 
     public ClientChat(Socket connection, String userName) {
         try {
@@ -55,6 +56,13 @@ public class ClientChat {
     }
 
     public static void main(String[] args) throws IOException {
+        String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        String appConfigPath = rootPath + "application.properties";
+        Properties appProps = new Properties();
+        appProps.load(new FileInputStream(appConfigPath));
+        final String HOST = appProps.getProperty("host");
+        final int PORT = Integer.parseInt(appProps.getProperty("port"));
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("You have entered this chat application.\nGive me your name for the group chat: ");
         String userName = scanner.nextLine();

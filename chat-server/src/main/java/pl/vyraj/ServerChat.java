@@ -1,13 +1,16 @@
 package pl.vyraj;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Objects;
+import java.util.Properties;
 
 public class ServerChat {
     private final ServerSocket server;
-    private static final int PORT = 7777;
-    private static final int CLIENTS_NUMBER = 10;
 
     public ServerChat(ServerSocket server) {
         this.server = server;
@@ -37,8 +40,14 @@ public class ServerChat {
             ioe.printStackTrace();
         }
     }
-
     public static void main(String[] args) throws IOException {
+        String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        String appConfigPath = rootPath + "application.properties";
+        Properties appProps = new Properties();
+        appProps.load(new FileInputStream(appConfigPath));
+        final int PORT = Integer.parseInt(appProps.getProperty("port"));
+        final int CLIENTS_NUMBER = Integer.parseInt(appProps.getProperty("clients_number"));
+
         ServerSocket serverSocket = new ServerSocket(PORT, CLIENTS_NUMBER);
         ServerChat serverChat = new ServerChat(serverSocket);
         serverChat.startServer();

@@ -1,17 +1,17 @@
 package pl.vyraj;
 
-import java.io.BufferedWriter;
 import java.io.BufferedReader;
-import java.io.OutputStreamWriter;
-import java.io.InputStreamReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InputHandler implements Runnable{
-    protected static final List<InputHandler> INPUT_HANDLERS = new ArrayList<>();
-    protected static final List<String> USER_NAMES = new ArrayList<>();
+    private static final List<InputHandler> INPUT_HANDLERS = new CopyOnWriteArrayList<>();
+    private static final List<String> USER_NAMES = new CopyOnWriteArrayList<>();
     private Socket socket;
     private BufferedReader input;
     private BufferedWriter output;
