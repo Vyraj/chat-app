@@ -44,32 +44,37 @@ public class ClientChat {
         }
     }
 
-    public void sendMessages() {
+    public Thread sendMessages() {
         MessageSender messageSender = new MessageSender();
-        Thread thread = new Thread(messageSender);
-        thread.start();
+        return Thread.ofVirtual()
+                .name("virtual-message-sender-", 0)
+                .start(messageSender);
     }
-    public void readMessages() {
+    public Thread readMessages() {
         MessageListener messageListener = new MessageListener();
-        Thread thread = new Thread(messageListener);
-        thread.start();
+        return Thread.ofVirtual()
+                .name("virtual-message-listener-", 0)
+                .start(messageListener);
     }
 
-    public static void main(String[] args) throws IOException {
-        String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        String appConfigPath = rootPath + "application.properties";
-        Properties appProps = new Properties();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        final String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        final String appConfigPath = rootPath + "application.properties";
+        final Properties appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
         final String HOST = appProps.getProperty("host");
         final int PORT = Integer.parseInt(appProps.getProperty("port"));
 
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
         System.out.println("You have entered this chat application.\nGive me your name for the group chat: ");
-        String userName = scanner.nextLine();
-        Socket socket = new Socket(HOST, PORT);
-        ClientChat clientChat = new ClientChat(socket, userName);
-        clientChat.readMessages();
-        clientChat.sendMessages();
+        final String userName = scanner.nextLine();
+        final Socket socket = new Socket(HOST, PORT);
+        final ClientChat clientChat = new ClientChat(socket, userName);
+        final Thread virtualChatListenerThread = clientChat.readMessages();
+        final Thread virtualChatSenderThread = clientChat.sendMessages();
+        virtualChatListenerThread.join();
+        virtualChatSenderThread.join();
+
     }
 
     private class MessageSender implements Runnable {
