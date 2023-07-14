@@ -41,15 +41,15 @@ public class ServerChat {
         }
     }
     public static void main(String[] args) throws IOException {
-        final String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        final String appConfigPath = rootPath + "application.properties";
-        final Properties appProps = new Properties();
+        final var rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        final var appConfigPath = rootPath + "application.properties";
+        final var appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
-        final int PORT = Integer.parseInt(appProps.getProperty("port"));
-        final int CLIENTS_NUMBER = Integer.parseInt(appProps.getProperty("clients_number"));
+        final var PORT = Integer.parseInt(appProps.getProperty("port"));
+        final var CLIENTS_NUMBER = Integer.parseInt(appProps.getProperty("clients_number"));
 
-        final ServerSocket serverSocket = new ServerSocket(PORT, CLIENTS_NUMBER);
-        final ServerChat serverChat = new ServerChat(serverSocket);
+        final var serverSocket = new ServerSocket(PORT, CLIENTS_NUMBER);
+        final var serverChat = new ServerChat(serverSocket);
         serverChat.startServer();
     }
 

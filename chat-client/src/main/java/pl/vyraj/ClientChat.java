@@ -45,33 +45,33 @@ public class ClientChat {
     }
 
     public Thread sendMessages() {
-        MessageSender messageSender = new MessageSender();
+        final var messageSender = new MessageSender();
         return Thread.ofVirtual()
                 .name("virtual-message-sender-", 0)
                 .start(messageSender);
     }
     public Thread readMessages() {
-        MessageListener messageListener = new MessageListener();
+        final var messageListener = new MessageListener();
         return Thread.ofVirtual()
                 .name("virtual-message-listener-", 0)
                 .start(messageListener);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        final String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        final String appConfigPath = rootPath + "application.properties";
-        final Properties appProps = new Properties();
+        final var rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        final var appConfigPath = rootPath + "application.properties";
+        final var appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
-        final String HOST = appProps.getProperty("host");
-        final int PORT = Integer.parseInt(appProps.getProperty("port"));
+        final var HOST = appProps.getProperty("host");
+        final var PORT = Integer.parseInt(appProps.getProperty("port"));
 
-        final Scanner scanner = new Scanner(System.in);
+        final var scanner = new Scanner(System.in);
         System.out.println("You have entered this chat application.\nGive me your name for the group chat: ");
-        final String userName = scanner.nextLine();
-        final Socket socket = new Socket(HOST, PORT);
-        final ClientChat clientChat = new ClientChat(socket, userName);
-        final Thread virtualChatListenerThread = clientChat.readMessages();
-        final Thread virtualChatSenderThread = clientChat.sendMessages();
+        final var userName = scanner.nextLine();
+        final var socket = new Socket(HOST, PORT);
+        final var clientChat = new ClientChat(socket, userName);
+        final var virtualChatListenerThread = clientChat.readMessages();
+        final var virtualChatSenderThread = clientChat.sendMessages();
         virtualChatListenerThread.join();
         virtualChatSenderThread.join();
 
@@ -84,9 +84,9 @@ public class ClientChat {
             try {
                 sendBufferedWriterMessage(userName);
 
-                Scanner scanner = new Scanner(System.in);
+                final var scanner = new Scanner(System.in);
                 while (connection.isConnected()) {
-                    String messageToSend = scanner.nextLine();
+                    var messageToSend = scanner.nextLine();
                     sendBufferedWriterMessage(userName + "> " + messageToSend);
                 }
             } catch (IOException ioe) {
@@ -105,7 +105,7 @@ public class ClientChat {
 
         @Override
         public void run() {
-            String messageFromGroupChat = "";
+            var messageFromGroupChat = "";
             while (connection.isConnected()) {
                 try {
                     messageFromGroupChat = input.readLine();

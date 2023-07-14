@@ -32,7 +32,7 @@ public class InputHandler implements Runnable{
     }
 
     public void broadcastMessage(String messageToSend) {
-        for (InputHandler inputHandler : INPUT_HANDLERS) {
+        for (var inputHandler : INPUT_HANDLERS) {
             try {
                 if (!inputHandler.clientUserName.equals(clientUserName)) {
                     inputHandler.output.write(messageToSend);
@@ -46,7 +46,7 @@ public class InputHandler implements Runnable{
     }
 
     public void broadcastMessageToOneClient(String messageToSend, String clientName) {
-        for (InputHandler inputHandler : INPUT_HANDLERS) {
+        for (var inputHandler : INPUT_HANDLERS) {
             try {
                 if (inputHandler.clientUserName.equals(clientName)) {
                     inputHandler.output.write(messageToSend);
@@ -84,7 +84,7 @@ public class InputHandler implements Runnable{
 
     @Override
     public void run() {
-        String messageFromClient = "";
+        var messageFromClient = "";
 
         while (socket.isConnected()) {
             try {
