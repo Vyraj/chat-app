@@ -6,11 +6,13 @@ Chat functionalities:
 1. Chat allows give chosen user name for chat client user.
 2. Chat allows to send messages to all users: you write your message and every chat user receives this message.
 3. Chat allows to send private messages. 
+
 a) If you have three users: Mike, Fred and Joe:
 - if you start your message from @ and then existing user name:
 e.g. if Mike starts message like that:		@Fred How are you ?
 then only Fred receives message like that:
 Mike PRIVATE> How are you ?
+
 b) if Mike starts message like that with non-existing user name: @Dan How are you ?
 then only Mike see such message:
 Dan probably is wrong or non-existing user name!!!
