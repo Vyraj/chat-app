@@ -16,11 +16,14 @@ then only Mike see such message:
 Dan probably is wrong or non-existing user name!!!
 
 What I have learned during working with this application:
+
 I have learned:
-1. How to enable experimental features in Java (I have tried to use Virtual Threads from Project Loom in this project - future improvement).
+1. How to enable experimental features in Java (I have used Virtual Threads from Project Loom in this project).
 2. How to create POM with modules and create three different applications: parent chat and two child module apllications chat-client and chat-server.
 3. How to use try-catch construction and when finally is not a good choice (I had some bugs connected with this).
 4. How to use Java Streams object like BufferedReader and BufferedWriter - how to set up and use them properly.
 5. How to use inner classes.
 6. How to use threads in client-server application.
 7. How to use ServerSocket and Socket classes - programming with Sockets.
+8. How to create multi-threaded application with mix of traditional threads with new Virtual Threads - project Loom.
+9. How to use new Java features like class inference with var for local variables.
