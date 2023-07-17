@@ -29,3 +29,4 @@ I have learned:
 7. How to use ServerSocket and Socket classes - programming with Sockets.
 8. How to create multi-threaded application with mix of traditional threads with new Virtual Threads - project Loom.
 9. How to use new Java features like class inference with var for local variables.
+10.How to use Java thread safe collections CopyOnWriteArrayList which is a thread-safe variant of ArrayList and assure thread safety with synchronized keyword.
