@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -19,16 +17,20 @@ public class ServerChat {
     public void startServer() {
         try {
             while (!server.isClosed()) {
-                Socket socket = server.accept();
+                var socket = server.accept();
                 System.out.println("We have new client connected!");
-                InputHandler inputHandler = new InputHandler(socket);
-
-                Thread thread = new Thread(inputHandler);
-                thread.start();
+                var virtualChatInputProcessorThread = processInput(socket);
             }
         } catch (IOException ioe) {
             closeServer();
         }
+    }
+
+    private Thread processInput(Socket socket) {
+        final var inputHandler = new InputHandler(socket);
+        return Thread.ofVirtual()
+                .name("virtual-input-processor-", 0)
+                .start(inputHandler);
     }
 
     public void closeServer() {

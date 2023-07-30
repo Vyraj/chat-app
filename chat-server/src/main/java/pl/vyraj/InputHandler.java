@@ -90,9 +90,9 @@ public class InputHandler implements Runnable{
             try {
                 messageFromClient = input.readLine();
                 if (messageFromClient.contains("@")) {
-                    String[] words =  messageFromClient.split(" ");
-                    String probablyUserName = words[1].replace("@", "");
-                    String message = clientUserName + " " +  "PRIVATE> ";
+                    var words =  messageFromClient.split(" ");
+                    var probablyUserName = words[1].replace("@", "");
+                    var message = clientUserName + " " +  "PRIVATE> ";
                     for (int i = 0; i < words.length; i++) {
                         if (i > 1) {
                             message += words[i] + " ";
